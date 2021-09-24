@@ -9,16 +9,6 @@ const resolvers = {
     
   },
   Mutation: {
-    decryptWithPrivateKey: async (_: any, args: {privateKey: string, input: string, passphrase: string}) => {
-      try{
-        let result = await decryptWithPGP(args.input,args.privateKey,args.passphrase)
-        return result;
-      }catch(err){
-        console.log(err);
-        errorLog(err);
-        return ""
-      }
-    },
     generateKeyPair: async (_: any, args: {email: string,passphrase: string, name: string}) => {
       // Too simple for a controller
       if(!args.email){

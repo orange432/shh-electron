@@ -11,13 +11,18 @@ generator client {
 }
 
 
+// Users
 model User {
   userId         Int @id @default(autoincrement())
   username       String @unique
   password       String
   salt           String
+  avatar         String
   publicKey      String @db.Text
-  preferences UserPrefs[]
+  privateKey     String? @db.Text
+  preferences    UserPrefs[]
+  messagesSent   Message[]
+  sessions       SessionRecord[]
 }
 
 model UserPrefs {
@@ -26,4 +31,31 @@ model UserPrefs {
   preference String
   value      String
   @@id([userId,preference])
+}
+
+// Stores records of sessions, active sessions are handled by redis
+model SessionRecord {
+  userId    Int
+  user  User  @relation(fields: [userId], references: [userId])
+  started   DateTime @default(now())
+  ended     DateTime @updatedAt
+  @@id([userId,started])
+}
+
+// Messages
+model Message {
+  messageId Int @id
+  fromId    Int
+  to        User @relation(fields: [toId], references: [userId])
+  toId      Int
+  content   String @db.Text
+  attachments Attachment[]
+  timestamp DateTime @default(now())
+}
+
+model Attachment {
+  attachmentId Int @id
+  message      Message @relation(fields:[messageId], references: [messageId])
+  messageId    Int
+  filePath     String
 }

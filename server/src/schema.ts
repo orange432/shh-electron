@@ -10,7 +10,7 @@ type Query{
   
 }
 type Mutation{
-  decryptWithPrivateKey(privateKey: String!, input: String, passphrase: String): String
+
   encryptWithPublicKey(publicKey: String!, input: String): String
   generateKeyPair(name: String, email: String, passphrase: String): KeyPair
 }
