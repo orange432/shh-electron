@@ -5,8 +5,14 @@ type KeyPair{
   privateKey: String!
   publicKey: String!
 }
+
+type Success{
+  success: Boolean!
+  payload: String
+  error: String
+}
 type Query{
-    
+  getPublicKey(session: String!, username: String!): String
 }
 type Mutation{
 

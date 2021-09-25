@@ -45,7 +45,7 @@ model SessionRecord {
 
 // Messages
 model Message {
-  messageId Int @id
+  messageId Int @id @default(autoincrement())
   fromId    Int
   to        User @relation(fields: [toId], references: [userId])
   toId      Int

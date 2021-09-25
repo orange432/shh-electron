@@ -12,3 +12,7 @@ A simple multi-platform encrypted chat system that uses OpenPGP
 - OpenPGP
 - Jest
 - TypeScript
+
+# Plans & Features
+Version one will only allow for one-on-one chat messages between users but chat-rooms and conversations with multiple users may be added later.
+
