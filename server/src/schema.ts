@@ -6,8 +6,7 @@ type KeyPair{
   publicKey: String!
 }
 type Query{
-  test: Boolean!
-  
+    
 }
 type Mutation{
 

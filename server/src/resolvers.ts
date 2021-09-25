@@ -3,9 +3,6 @@ import { errorLog } from "./util/logger";
 
 const resolvers = {
   Query: {
-    test: ()=>(true),
-    
-    // Decrypts a message that used your public key
     
   },
   Mutation: {

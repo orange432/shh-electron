@@ -17,12 +17,13 @@ model User {
   username       String @unique
   password       String
   salt           String
-  avatar         String
+  avatar         String @default("user.png")
   publicKey      String @db.Text
   privateKey     String? @db.Text
   preferences    UserPrefs[]
   messagesSent   Message[]
   sessions       SessionRecord[]
+  blocking       BlockedUser[] @relation("BlockedSender")
 }
 
 model UserPrefs {
@@ -36,7 +37,7 @@ model UserPrefs {
 // Stores records of sessions, active sessions are handled by redis
 model SessionRecord {
   userId    Int
-  user  User  @relation(fields: [userId], references: [userId])
+  user      User  @relation(fields: [userId], references: [userId])
   started   DateTime @default(now())
   ended     DateTime @updatedAt
   @@id([userId,started])
@@ -53,9 +54,24 @@ model Message {
   timestamp DateTime @default(now())
 }
 
+model BlockedUser {
+  blocked         User @relation(name: "BlockedSender", fields: [blockedId], references: [userId])
+  blockedId       Int
+  receiverId      Int
+  @@id([blockedId,receiverId])
+}
+
 model Attachment {
   attachmentId Int @id
   message      Message @relation(fields:[messageId], references: [messageId])
   messageId    Int
   filePath     String
+}
+
+// Extra encryption
+// (TODO) Change Key and IV (initialization vector) to binary values to allow for more complexity.
+model AESKey {
+  keyId String @id @default(uuid())
+  key   String @db.VarChar(32)
+  iv    String @db.VarChar(32)
 }

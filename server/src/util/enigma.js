@@ -8,6 +8,10 @@ export const sha256 = (input) => {
     return createHash('sha256').update(input).digest('base64');
 }
 
+export const encryptPassword = (salt,password)=> {
+    return sha256(`${salt}${password}`);
+}
+
 
 /* Generates a random string
     @param (number) length - The length of the random string to be returned;
