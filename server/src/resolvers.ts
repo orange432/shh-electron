@@ -14,6 +14,9 @@ const resolvers = {
       let [publicKey,err] = await getPublicKey(args.username);
       if(err) return {success: false, error: err}
       return {success: true, payload: publicKey};
+    },
+    testQuery: () => {
+      return {success: true, payload: "This is successful!"}
     }
   },
   Mutation: {

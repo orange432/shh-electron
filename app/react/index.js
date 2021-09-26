@@ -1,5 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ApolloProvider } from '@apollo/client'
+import { Global, ThemeProvider, css } from '@emotion/react';
+import apolloClient from './Apollo'
+import theme from './Theme';
 import App from './App';
 
-ReactDOM.render(<App/>,document.getElementById('root'))
+const styles = css`
+  body,html{
+    color: #fff;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+`
+
+ReactDOM.render(
+  <ApolloProvider client={apolloClient}>
+    <ThemeProvider theme={theme}>
+      <App/>
+      <Global styles={styles}/>
+    </ThemeProvider>
+  </ApolloProvider>
+,document.getElementById('root'))

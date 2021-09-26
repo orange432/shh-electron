@@ -13,6 +13,7 @@ type Success{
 }
 type Query{
   getPublicKey(session: String!, username: String!): String
+  testQuery: Success!
 }
 type Mutation{
 

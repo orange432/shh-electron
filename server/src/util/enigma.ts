@@ -1,5 +1,5 @@
-import { createCipheriv,createDecipheriv, createHash } from 'crypto';
-import openpgp,{ generateKey, readKey, encrypt, createMessage, decryptKey,readPrivateKey, readMessage, decrypt } from 'openpgp'
+import { createCipheriv,createDecipheriv, createHash, randomInt } from 'crypto';
+import { generateKey, readKey, encrypt, createMessage, decryptKey,readPrivateKey, readMessage, decrypt } from 'openpgp'
 
 /* Generates a sha256 hash
    @param (string) input - The string to hash
@@ -18,10 +18,11 @@ export const encryptPassword = (salt: string,password: string): string => {
 */
 export const randomString = (length: number): string => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
     const charsLength = chars.length;
     let out='';
     for(let i=0;i<length;i++){
-      out+=chars.charAt(Math.floor(Math.random()*charsLength));
+      out+=chars.charAt(randomInt(charsLength));
     }
     return out;
   }
@@ -32,7 +33,7 @@ export const randomString = (length: number): string => {
 
 export const generateKeyPair = async (name: string, email: string, passphrase: string='') => {
     const {privateKey, publicKey} = await generateKey({
-        curve: 'ed25519', 
+        curve: 'curve25519', 
         userIDs: [{name,email}],
         passphrase,
         format: 'armored'

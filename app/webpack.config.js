@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
   entry: './react/index.js',
   mode: "development",
@@ -14,14 +16,19 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/preset-env','@babel/preset-react'
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@emotion/babel-preset-css-prop'
             ]
           }
         },
-      },
+      }
     ]
   },
   resolve: {
-    extensions: ['.jsx','.js']
-  }
+    extensions: ['.jsx','.js','.css']
+  },
+  plugins: [
+    new webpack.ExternalsPlugin('commonjs',['electron'])
+  ]
 }

@@ -12,12 +12,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apollo/client": "^3.4.13",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
     "electron": "^15.0.0",
+    "graphql": "^15.6.0",
     "openpgp": "^5.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
     "babel-loader": "^8.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

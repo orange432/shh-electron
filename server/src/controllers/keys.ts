@@ -1,6 +1,7 @@
 import prisma from "../prisma"
 import { errorLog } from "../util/logger"
 
+// Gets a users public key
 export const getPublicKey = async (username: string) => {
   try{
     let publicKey = await prisma.user.findUnique(
