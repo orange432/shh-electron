@@ -3,8 +3,8 @@ import { encryptPassword, generateKeyPair, randomString } from "../util/enigma"
 import { errorLog } from "../util/logger"
 
 export const createUser = async (username: string, password: string)=> {
-  if(!/[A-Za-z0-9_-]$/.test(username)){
-    return [null,"Username must only contain: Letters, Numbers, - and _"]
+  if(!/[A-Za-z0-9_-]{4,32}$/.test(username)){
+    return [null,"Username must only contain: Letters, Numbers, - and _ and be between 4 and 32 characters"]
   }
   // Check input lengths
   if(username.length<4 || password.length<4){
@@ -46,4 +46,31 @@ export const createUser = async (username: string, password: string)=> {
     errorLog(err)
     return [null,"Something went wrong with the database.  Please try again"]
   }
+}
+
+// Resets a users password
+export const resetPassword = async (userId: number, oldPassword: string, newPassword: string) =>{
+  try{
+    let user = await prisma.user.findUnique({where: {userId}})
+    if(!user) return [null,"User does not exist."]
+    if(encryptPassword(user.salt,oldPassword)!==user.password){
+      return [null,"Incorrect password"]
+    }
+    // Old password is correct, change password
+    await prisma.user.update({
+      where: {userId},
+      data: {
+        password: encryptPassword(user.salt,newPassword)
+      }
+    })
+    return [true,null];
+  }catch(err){
+    errorLog(err);
+    return [null,"Something went wrong with the database.  Please try again"]
+  }
+}
+
+// Disables the given account permanently.
+export const disableAccount = (userId: number) => {
+
 }

@@ -1,15 +1,30 @@
 import { getPublicKey } from "./controllers/keys";
+import { authenticate } from "./controllers/sessions";
 import { decryptWithPGP, encryptWithPGP, generateKeyPair, randomString } from "./util/enigma"
+import { getMessages } from "./controllers/messages";
 import { errorLog } from "./util/logger";
 
 const resolvers = {
   Query: {
-    getMessages: async (_: any, args:{session: string, username: string, startFrom: number}) => {
-
+    getMessages: async (_: any, args:{session: string, numMessages: number, startFrom: number}) => {
+      // Authenticate
+      let [session,err]: any = await authenticate(args.session);
+      if(err) return {success: false, error: err, messages: []}
+      let {user} = session;
+      let [messages,error] = await getMessages(user.userId,args.numMessages || 0,args.startFrom || 50)
+      if(error) return {success: false, error, messages: []};
+      return {success: true, messages};
     },
     authenticate: async (_: any, args:{session: string})=> {
-
+      let [session,error]: any = await authenticate(args.session);
+      if(error) return {success: false, error};
+      let {user, expiry} = session;
+      return {success: true, user, expiry}
     },
+    getPrivateKey: async (_: any, args: {session: string}) =>{
+
+    }
+    ,
     getPublicKey: async (_: any, args: {username: string}) => {
       let [publicKey,err] = await getPublicKey(args.username);
       if(err) return {success: false, error: err}

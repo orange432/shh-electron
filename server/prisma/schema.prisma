@@ -20,8 +20,11 @@ model User {
   avatar         String @default("user.png")
   publicKey      String @db.Text
   privateKey     String? @db.Text
+  joined         DateTime @default(now())
+  active         Boolean  @default(true)
   preferences    UserPrefs[]
-  messagesSent   Message[]
+  messagesSent   Message[] @relation("MessagesSent")
+  messagesReceived Message[] @relation("MessagesReceived")
   sessions       SessionRecord[]
   blocking       BlockedUser[] @relation("BlockedSender")
 }
@@ -46,8 +49,9 @@ model SessionRecord {
 // Messages
 model Message {
   messageId Int @id @default(autoincrement())
+  from      User @relation(name: "MessagesReceived",fields: [fromId], references: [userId])
   fromId    Int
-  to        User @relation(fields: [toId], references: [userId])
+  to        User @relation(name: "MessagesSent",fields: [toId], references: [userId])
   toId      Int
   content   String @db.Text
   attachments Attachment[]

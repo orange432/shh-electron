@@ -44,3 +44,17 @@ export const encryptAndSendMessage = async (fromId: number, toUsername: string, 
     return [null,"Something went wrong with the database.  Please try again"]
   }
 }
+
+export const getMessages = async (userId: number, numMessages: number=50, startFrom: number=0) => {
+  try{
+    let messages = await prisma.message.findMany({
+      where: {toId: userId},
+      include: {from: true},
+      orderBy: {timestamp: 'desc'}
+    })
+    return [messages.slice(startFrom, startFrom+numMessages),null];
+  }catch(err){
+    errorLog(err)
+    return [null,"Something went wrong with the database.  Please try again"]
+  }
+}
