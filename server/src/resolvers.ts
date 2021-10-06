@@ -1,8 +1,9 @@
 import { getPublicKey } from "./controllers/keys";
-import { authenticate } from "./controllers/sessions";
+import { authenticate, login } from "./controllers/sessions";
 import { decryptWithPGP, encryptWithPGP, generateKeyPair, randomString } from "./util/enigma"
 import { getMessages } from "./controllers/messages";
 import { errorLog } from "./util/logger";
+import { createUser } from "./controllers/users";
 
 const resolvers = {
   Query: {
@@ -22,6 +23,8 @@ const resolvers = {
       return {success: true, user, expiry}
     },
     getPrivateKey: async (_: any, args: {session: string}) =>{
+      let [session,error]: any = await authenticate(args.session);
+      if(error) return {success: false, error};
 
     }
     ,
@@ -36,10 +39,13 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (_: any, args: {username: string, password: string}) => {
-
+      let [user,error] = await createUser(args.username,args.password);
+      if(error) return {success: false,error}
+      return {success: true};
     },
     login: async (_: any, args: {username: string, password: string})=>{
-
+      let [token,error] = await login(args.username,args.password);
+      if(error) return {success: false, error}
     },
     logout: async (_: any, args: {session: string})=>{
 

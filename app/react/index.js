@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/client'
 import { Global, ThemeProvider, css } from '@emotion/react';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import apolloClient from './Apollo'
 import theme from './Theme';
 import App from './App';
@@ -18,6 +20,7 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <App/>
       <Global styles={styles}/>
+      <ToastContainer/>
     </ThemeProvider>
   </ApolloProvider>
 ,document.getElementById('root'))

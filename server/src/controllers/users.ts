@@ -40,7 +40,7 @@ export const createUser = async (username: string, password: string)=> {
       }
     })
 
-    return [{user}, null]
+    return [user, null]
 
   }catch(err){
     errorLog(err)
