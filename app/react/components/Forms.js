@@ -26,5 +26,5 @@ export const Button = styled.button`
   padding: 8px 15px;
   font-size: 18px;
   background-color: ${({theme})=>theme.colors.treeGreen};
-  color: 'white';
+  color: #fff;
 `

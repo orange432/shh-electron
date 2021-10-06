@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 const Nav = styled.nav`
   position: fixed;
@@ -35,6 +36,7 @@ const Nav = styled.nav`
 
 
 const NavBar = () => {
+  const auth = useAuth();
   return (
     <Nav>
       <ul>
@@ -50,6 +52,7 @@ const NavBar = () => {
         <li>
           <Link to="/register">Register</Link>
         </li>
+        {(auth.isLoggedIn)?<li>{auth.username}</li>:<></>}
       </ul>
     </Nav>
   )

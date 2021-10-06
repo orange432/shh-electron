@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/client'
 import { Global, ThemeProvider, css } from '@emotion/react';
+import AuthProvider from './contexts/AuthContext'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import apolloClient from './Apollo'
@@ -17,10 +18,12 @@ const styles = css`
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
-    <ThemeProvider theme={theme}>
-      <App/>
-      <Global styles={styles}/>
-      <ToastContainer/>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <App/>
+        <Global styles={styles}/>
+        <ToastContainer/>
+      </ThemeProvider>
+    </AuthProvider>
   </ApolloProvider>
 ,document.getElementById('root'))

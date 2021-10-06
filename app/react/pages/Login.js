@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import { toast } from 'react-toastify'
+import { useAuth } from '../contexts/AuthContext'
 import { Button, Form, Input, Label } from '../components/Forms'
 import { Center } from '../components/Helpers'
 import LoadingScreen from '../components/LoadingScreen'
@@ -11,7 +12,7 @@ const USER_LOGIN = gql`
   mutation Login($username: String!, $password: String!){
     login(username: $username, password: $password){
       success
-      session
+      token
       error
     }
   }
@@ -20,6 +21,8 @@ const USER_LOGIN = gql`
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const auth = useAuth();
 
   const [login, {loading, error}] = useMutation(USER_LOGIN);
 
@@ -31,6 +34,7 @@ const Login = () => {
     login({variables: {username, password}})
     .then(({data})=>{
       if(data.login.success){
+        auth.storeLogin(data.login.token,username)
         return toast.success(`User ${username} logged in!`)
       }
       toast.error(data.login.error)

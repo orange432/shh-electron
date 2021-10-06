@@ -10,3 +10,7 @@ export const Subtitle = styled.h3`
   color: #fff;
   text-align: center;
 `
+
+export const Tiny = styled.p`
+  font-size: 10px;
+`
