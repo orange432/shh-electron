@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { Button, Form, Input, Label } from '../components/Forms'
 import { Center } from '../components/Helpers'
 import LoadingScreen from '../components/LoadingScreen'
+import ErrorScreen from '../components/ErrorScreen'
 import { Title } from '../components/Typography'
 
 const USER_LOGIN = gql`
@@ -27,14 +28,17 @@ const Login = () => {
     if(username==='' || password===''){
       return toast.error('Please enter a username and password')
     }
-    login({variables: {username, password},onCompleted(data){
+    login({variables: {username, password}})
+    .then(({data})=>{
       if(data.login.success){
-        
+        return toast.success(`User ${username} logged in!`)
       }
-    }})
+      toast.error(data.login.error)
+    })
     .catch(err=>{toast.error("Something went wrong!")})
   }
 
+  if (error) return <ErrorScreen error={error}/>
   if(loading) return <LoadingScreen/>
 
   return (

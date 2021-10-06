@@ -2,10 +2,16 @@ import {gql} from 'apollo-server-express';
 
 const schema = gql`
 type User{
-  username
-  avatar
-  publicKey
-  joined
+  username: String!
+  avatar: String
+  publicKey: String
+  joined: Int
+}
+
+type Login{
+  success: Boolean!
+  token: String
+  error: String
 }
 
 type Auth{
@@ -34,7 +40,6 @@ type MessageResponse{
 
 type Success{
   success: Boolean!
-  payload: String
   error: String
 }
 type Query{
@@ -45,9 +50,11 @@ type Query{
   authenticate(session: String!): Auth!
 }
 type Mutation{
-
+  createUser(username: String!, password: String!): Success!
   encryptWithPublicKey(publicKey: String!, input: String): String
   generateKeyPair(name: String, email: String, passphrase: String): KeyPair
+  login(username: String!, password: String!): Login!
+  logout(session: String!): Success!
 }
 `
 

@@ -1,1 +1,1 @@
-export const APOLLO_URI = 'https://localhost:8000/graphql'
+export const APOLLO_URI = 'http://localhost:8000/graphql'

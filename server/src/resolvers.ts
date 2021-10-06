@@ -1,5 +1,5 @@
 import { getPublicKey } from "./controllers/keys";
-import { authenticate, login } from "./controllers/sessions";
+import { authenticate, login, logout } from "./controllers/sessions";
 import { decryptWithPGP, encryptWithPGP, generateKeyPair, randomString } from "./util/enigma"
 import { getMessages } from "./controllers/messages";
 import { errorLog } from "./util/logger";
@@ -46,9 +46,12 @@ const resolvers = {
     login: async (_: any, args: {username: string, password: string})=>{
       let [token,error] = await login(args.username,args.password);
       if(error) return {success: false, error}
+      return {success: true, token};
     },
     logout: async (_: any, args: {session: string})=>{
-
+      let [success, error] = await logout(args.session);
+      if(error) return {success: false, error};
+      return {success: true};
     },
     generateKeyPair: async (_: any, args: {email: string,passphrase: string, name: string}) => {
       // Too simple for a controller
@@ -79,9 +82,6 @@ const resolvers = {
         return "";
       }
     },
-    blockUser: async (_:any, args: {session: string, username: string}) => {
-
-    }
   }
 }
 

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { Title } from '../components/Typography'
 import { Label, Input, Form, Button } from '../components/Forms'
 import { Center } from '../components/Helpers';
+import LoadingScreen from '../components/LoadingScreen';
 
 const REGISTER_USER = gql`
   mutation CreateUser($username: String!, $password: String!){
@@ -29,11 +30,18 @@ const Register = () => {
     if(!/[A-Za-z0-9_-]{4,32}$/.test(username)){
       return toast.error("Username must only contain: Letters, Numbers, - and _ and be between 4 and 32 characters")
     }
-    createUser({variables: {username, password},onCompleted(data){
-      toast.success("User created successfully!")
-    }},)
+    createUser({variables: {username, password}},)
+    .then(({data})=>{
+      if(data.createUser.success){
+        return toast.success(`User ${username} created successfully!`)
+      }
+      toast.error(data.createUser.error)
+    })
     .catch(err=>{toast.error("Something went wrong!")})
   }
+
+  if (error) return <ErrorScreen error={error}/>
+  if (loading) return <LoadingScreen/>
 
   return (
     <div>
