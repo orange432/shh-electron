@@ -5,7 +5,7 @@ type User{
   username: String!
   avatar: String
   publicKey: String
-  joined: Int
+  joined: Float
 }
 
 type Login{
@@ -18,7 +18,7 @@ type Auth{
   success: Boolean!
   error: String
   user: User
-  expiry: Int
+  expiry: Float
 }
 
 type KeyPair{
@@ -27,15 +27,17 @@ type KeyPair{
 }
 
 type Message{
+  messageId: Int
   from: String
   content: String
-  timestamp: Int
+  timestamp: Float
 }
 
 type MessageResponse{
-  succcess: Boolean!
+  success: Boolean!
   error: String
   messages: [Message!]!
+  total: Int
 }
 
 type Success{

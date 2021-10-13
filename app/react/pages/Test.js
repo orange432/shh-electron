@@ -1,5 +1,6 @@
 import React from 'react'
 import {toast} from 'react-toastify';
+import Card from '../components/Card';
 import { Button } from '../components/Forms';
 import { Tiny } from '../components/Typography';
 import { useAuth } from '../contexts/AuthContext';
@@ -17,6 +18,7 @@ const Test = () => {
       <Button onClick={()=>toastMe()}>Toast</Button>
       <h2>My session token is: </h2>
       <Tiny>{auth.session}</Tiny>
+      <Card caption="this is a test caption"/>
     </div>
   )
 }

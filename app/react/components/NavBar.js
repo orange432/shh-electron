@@ -9,7 +9,7 @@ const Nav = styled.nav`
   left: 0;
   height: 72px;
   width: 100%;
-  background: ${({theme}) => theme.colors.oceanBlue};
+  background: ${({theme}) => theme.colors.navbar};
 
   ul{
     list-style-type: none;
@@ -26,7 +26,7 @@ const Nav = styled.nav`
         display: block;
         &:hover{
           background: #fff;
-          color: ${({theme})=> theme.colors.oceanBlue};
+          color: ${({theme})=> theme.colors.navbar};
         }
       }
     }
@@ -37,6 +37,23 @@ const Nav = styled.nav`
 
 const NavBar = () => {
   const auth = useAuth();
+  if(auth.isLoggedIn){
+    return (
+      <Nav>
+        <ul>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/conversations">Conversations</Link>
+          </li>
+          <li>
+            <Link to="/logout">Logout</Link>
+          </li>
+        </ul>
+      </Nav>
+    )
+  }
   return (
     <Nav>
       <ul>

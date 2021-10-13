@@ -5,10 +5,12 @@
 
 const theme = {
   colors: {
-    deepPurple: "#55006b",
-    treeGreen: "#166b00",
-    deepRed: "#6b0001",
-    oceanBlue: "#002c6b"
+    primary: "#55006b",
+    secondary: "#6b0001",
+    tertiary: "#6b3f00",
+    navbar: "#002c6b",
+    background: "#001e05",
+    buttons: "#166b00"
   }
 }
 

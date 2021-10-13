@@ -16,6 +16,13 @@ const AuthProvider = ({children}) => {
     setUsername(username);
   }
 
+  const logout = () => {
+    setSession('')
+    setIsLoggedIn(false);
+    setIsAuthorized(false);
+    setUsername('');
+  }
+
   const ctxValues = {
     isAuthorized,
     setIsAuthorized,
@@ -23,6 +30,7 @@ const AuthProvider = ({children}) => {
     storeLogin,
     isLoggedIn,
     username,
+    logout
   }
   return (
     <AuthContext.Provider value={ctxValues}>
